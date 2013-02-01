@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "mongoose" : "latest",
-    "ghostscript" : "latest",
+    "ghostscript" :  "https://github.com/musubu/node-ghostscript/tarball/master",
     "gm": "latest",
     "knox": "latest",
     "mime": "latest",
