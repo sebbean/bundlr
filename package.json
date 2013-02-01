@@ -1,6 +1,6 @@
 {
   "author": "Sebastian Bean <sebbean@gmail.com> http://sebbean.github.com",
-  "name": "bunldr",
+  "name": "bundlr",
   "description": "MEDIA BUNDLER",
   "version": "0.1.1",
   "keywords": ["upload", "image", "graphicsmagick", "imagemagick", "rackspace", "cloudfiles", "resize", "file", "crop", "amazon", "s3"],
