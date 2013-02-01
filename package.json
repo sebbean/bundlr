@@ -11,7 +11,7 @@
   },
   "main": "index",
   "engines": {
-    "node": "latest"
+    "node": "0.8"
   },
   "dependencies": {
     "mongoose" : "latest",
