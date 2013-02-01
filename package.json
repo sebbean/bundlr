@@ -2,7 +2,7 @@
   "author": "Sebastian Bean <sebbean@gmail.com> http://sebbean.github.com",
   "name": "bunldr",
   "description": "MEDIA BUNDLER",
-  "version": "0.1.4",
+  "version": "0.1",
   "keywords": ["upload", "image", "graphicsmagick", "imagemagick", "rackspace", "cloudfiles", "resize", "file", "crop", "amazon", "s3"],
   "homepage": "https://github.com/sebbean/bundlr",
   "repository": {
@@ -11,7 +11,7 @@
   },
   "main": "index",
   "engines": {
-    "node": "0.8"
+    "node": "latest"
   },
   "dependencies": {
     "mongoose" : "latest",
