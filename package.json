@@ -22,12 +22,9 @@
     "async": "latest",
     "underscore": "latest",
     "fluent-ffmpeg" : "latest"
+  },
+  "devDependencies": {
+    "mocha": "1.0.3",
+    "should": "0.6.3"
   }
-  // "devDependencies": {
-  //   "mocha": "1.0.3",
-  //   "should": "0.6.3"
-  // },
-  // "scripts": {
-  //   "test": "make test"
-  // }
 }
