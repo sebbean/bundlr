@@ -1,0 +1,33 @@
+{
+  "author": "Sebastian Bean <sebbean@gmail.com> http://sebbean.github.com",
+  "name": "bunldr",
+  "description": "MEDIA BUNDLER",
+  "version": "0.1.4",
+  "keywords": ["upload", "image", "graphicsmagick", "imagemagick", "rackspace", "cloudfiles", "resize", "file", "crop", "amazon", "s3"],
+  "homepage": "https://github.com/sebbean/bundlr",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/sebbean/bundlr.git"
+  },
+  "main": "index",
+  "engines": {
+    "node": "latest"
+  },
+  "dependencies": {
+    "mongoose" : "latest",
+    "ghostscript" : "latest",
+    "gm": "latest",
+    "knox": "latest",
+    "mime": "latest",
+    "async": "latest",
+    "underscore": "latest",
+    "fluent-ffmpeg" : "latest"
+  }
+  // "devDependencies": {
+  //   "mocha": "1.0.3",
+  //   "should": "0.6.3"
+  // },
+  // "scripts": {
+  //   "test": "make test"
+  // }
+}
