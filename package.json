@@ -1,9 +1,24 @@
 {
-  "author": "Sebastian Bean <sebbean@gmail.com> http://sebbean.github.com",
+  "author": {
+    "name": "Sebastian Bean",
+    "email": "sebbean@gmail.com"
+  },
   "name": "bundlr",
   "description": "MEDIA BUNDLER",
   "version": "0.1.1",
-  "keywords": ["upload", "image", "graphicsmagick", "imagemagick", "rackspace", "cloudfiles", "resize", "file", "crop", "amazon", "s3"],
+  "keywords": [
+    "upload",
+    "image",
+    "graphicsmagick",
+    "imagemagick",
+    "rackspace",
+    "cloudfiles",
+    "resize",
+    "file",
+    "crop",
+    "amazon",
+    "s3"
+  ],
   "homepage": "https://github.com/sebbean/bundlr",
   "repository": {
     "type": "git",
@@ -14,17 +29,24 @@
     "node": "latest"
   },
   "dependencies": {
-    "mongoose" : "latest",
-    "ghostscript" :  "https://github.com/musubu/node-ghostscript/tarball/master",
+    "mongoose": "latest",
+    "ghostscript": "https://github.com/musubu/node-ghostscript/tarball/master",
     "gm": "latest",
     "knox": "latest",
     "mime": "latest",
     "async": "latest",
     "underscore": "latest",
-    "fluent-ffmpeg" : "latest"
+    "fluent-ffmpeg": "latest"
   },
   "devDependencies": {
     "mocha": "1.0.3",
     "should": "0.6.3"
-  }
+  },
+  "readme": "bundlr\n======\n\nmedia server module for node",
+  "readmeFilename": "README.md",
+  "_id": "bundlr@0.1.1",
+  "dist": {
+    "shasum": "37cc36fa3964f9faaca4408c9226ff9ac19747ea"
+  },
+  "_from": "bundlr@https://github.com/sebbean/bundlr/tarball/master"
 }

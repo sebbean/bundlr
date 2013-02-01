@@ -10,6 +10,7 @@ var mongoose = require('mongoose')
 
 exports.uploadFileToFolder = function(files, basefolder, cb) {
   async.mapSeries(files, function(file, done) {
+      console.log('_ dir name ', __dirname)
       console.log('files ', file, ' mime ', file.mime)
 
     // get the temporary location of the file
@@ -32,7 +33,7 @@ exports.uploadFileToFolder = function(files, basefolder, cb) {
       
       // var mime = new String(file.mime)
       file.baseKey = basefolder
-      file.path = path.normalize(__dirname + '../../../' + target_path)
+      file.path = target_path //path.normalize(__dirname + '../../../' + target_path)
       file.url = target_path.slice('./public'.length)
       // file.mime = mime
       var type = file.mime.slice(0,file.mime.indexOf('/'))  
@@ -130,6 +131,7 @@ exports.upload = function(req, res, next) {
     }
 
   	exports.uploadFileToFolder(req.files.media, bundle_key, function(err, medias) {
+      console.log('errrrr ', err)
       // console.log('req.files ', req.files)   
       console.log('medias ', medias)   
   		req.medias = medias

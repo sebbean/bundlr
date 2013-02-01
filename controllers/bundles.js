@@ -2,7 +2,6 @@
 var mongoose = require('mongoose')
   , Bundle = mongoose.model('Bundle')
   , Media = mongoose.model('Media')
-  , Imager = require('imager')
   , _ = require('underscore')
   , async = require('async')
   , gm = require('gm')
