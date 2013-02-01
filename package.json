@@ -7,7 +7,7 @@
   "homepage": "https://github.com/sebbean/bundlr",
   "repository": {
     "type": "git",
-    "url": "git://github.com/sebbean/bundlr.git"
+    "url": "git://github.com:sebbean/bundlr.git"
   },
   "main": "index",
   "engines": {
