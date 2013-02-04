@@ -7,8 +7,8 @@ var mongoose = require('mongoose')
   , ffmpeg = require('fluent-ffmpeg')
   , gm = require('gm')
   , gs = require('ghostscript')
-
-exports.uploadFileToFolder = function(files, basefolder, cb) {
+  
+exports.uploadFileToFolder = function(files, basefolder, media, cb) {
   async.mapSeries(files, function(file, done) {
       console.log('_ dir name ', __dirname)
       console.log('files ', file, ' mime ', file.mime)
@@ -32,7 +32,7 @@ exports.uploadFileToFolder = function(files, basefolder, cb) {
       // console.log('file.mime ', file.mime, ' index ',file.mime.indexOf('pdf'))
       
       // var mime = new String(file.mime)
-      file.baseKey = basefolder
+      file.bundleKey = basefolder
       file.path = target_path //path.normalize(__dirname + '../../../' + target_path)
       file.url = target_path.slice('./public'.length)
       // file.mime = mime
@@ -49,7 +49,15 @@ exports.uploadFileToFolder = function(files, basefolder, cb) {
         case 'application':
           if(file.mime.indexOf('pdf') >= 0) {
             sync = false
-
+            if(media && media.pages) {
+              media.pages.forEach(function(page, ix) {
+                if(fs.existsSync(page.path)) {
+                  fs.unlinkSync(page.path)
+                  console.log('unlinked page ', page)
+                }
+              })
+              // media.pages = []
+            }
             var basename = path.basename(file.path, '.pdf')
             gs()
               .batch()
@@ -78,6 +86,10 @@ exports.uploadFileToFolder = function(files, basefolder, cb) {
 
                   page.path = path.normalize(__dirname + '../../../' + page.path)
                   page.page = i
+
+                  if(media && media.pages && media.pages.length >= i && media.pages[i-1])
+                    page.name = media.pages[i-1].name
+
                   file.pages.push(page)
                 }
                 finish(file)
@@ -91,8 +103,10 @@ exports.uploadFileToFolder = function(files, basefolder, cb) {
       }
 
       function finish(file){
-        var media = Media.withFileInfo(file)
-
+        if(media)
+          media.updateFileInfo(file)
+        else
+          media = Media.withFileInfo(file)
         // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
         fs.unlink(tmp_path, function() {
             if (err) throw err;
@@ -105,50 +119,66 @@ exports.uploadFileToFolder = function(files, basefolder, cb) {
 }
 
 exports.upload = function(req, res, next) {
-  	// var files = req.files//req.files && req.files.pop()
+    // var files = req.files//req.files && req.files.pop()
 
-  	// if(files.image)
-  	// 	file = files.image
-  	// if(files.images)
-  	// 	files = files.images
+    // if(files.image)
+    //  file = files.image
+    // if(files.images)
+    //  files = files.images
 
-	if(req.files && req.files.media && Array.isArray(req.files.media)) {
+  if(req.files && req.files.media && Array.isArray(req.files.media)) {
       
     var bundle_key = null
     
     if(req.bundle) {
       bundle_key = req.bundle.title
 
-      req.files.media.forEach(function (file, ix) {
-        var matches = req.bundle.media.filter(function (b) {
-          return b.name == file.name
-        })
-        if(matches && matches.length) {
-          var match = matches.pop()
-          match.remove()
+      // req.files.media.forEach(function (file, ix) {
+      //   var matches = req.bundle.media.filter(function (b) {
+      //     return b.name == file.name
+      //   })
+      //   if(matches && matches.length) {
+      //     var match = matches.pop()
+      //     match.remove()
+      //   }
+      // })
+    }
+    var media = null
+    if(req.media) {
+      media = req.media
+      
+      media.sizes.forEach(function(size, ix) {
+        if(fs.existsSync(size.path)) {
+          fs.unlinkSync(size.path)
+          console.log('unlinked ', size.path)
         }
-      })
+      }) 
+      media.sizes = []     
+      console.log('media to be updated !', media)
     }
 
-  	exports.uploadFileToFolder(req.files.media, bundle_key, function(err, medias) {
-      console.log('errrrr ', err)
+    exports.uploadFileToFolder(req.files.media, bundle_key, media, function(err, medias) {
       // console.log('req.files ', req.files)   
       console.log('medias ', medias)   
-  		req.medias = medias
-  		next()
-  	})
-	}
+      req.medias = medias
+      next()
+    })
+  }
   else
-		next()
+    next()
 }
 
 exports.view = function(req, res, next) {
   var media = req.media
   	,	size_key = null
     , preset = null
-  var resizes_folder = path.dirname(media.path) + '/_resizes/'
+  // var resizes_folder = path.dirname(media.path) + '/_resizes/'
 
-  // console.log('image', media)
+    // var root_project = __dirname + 
+  var resizes_folder = __dirname + '/../../../' + path.dirname(media.path) + '/_resizes/'
+  resizes_folder = path.normalize(resizes_folder)
+  console.log('resize ', resizes_folder)
+
 
   if(req.params.size_key && req.params.size_key.indexOf('x')>=0)
   	size_key = req.params.size_key 
@@ -427,7 +457,9 @@ exports.media.update = function (req, res) {
     media.removeMetaVideoFile()    
   }
 
-  media.save(function (err, media) {
-    res.json(media)           
-  })
+  if(req.files.media) {
+    exports.uploadFileToFolder([req.files.media], media.bundleKey, media, function(err, medias) {
+      res.json(medias)   
+    })
+  }
 }

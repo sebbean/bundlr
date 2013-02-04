@@ -100,7 +100,17 @@ MediaSchema.statics.withFileInfo = function(file) {
 
   return image
 }
+MediaSchema.methods.updateFileInfo = function(file) {
+  var media = this
 
+  _.extend(media, file)
+  media.mediaKey = file.name
+  
+  if(file.mime.indexOf('pdf') >= 0) 
+    media.type = 'pdf'  
+  else
+    media.type = file.mime.slice(0,file.mime.indexOf('/'))   
+}
 MediaSchema.methods.fileWithSize = function(size_key) {
   var media = this
   // console.log('size ky ', size_key)
